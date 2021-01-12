@@ -23,14 +23,14 @@
 	Settings are stored in nonvolatile EEPROM and are retained through power outages or reset.
 
 ## Menu options:
-* **Opt 1: 	12/24 Hour Mode**	 (Default: 12)
- * Display time in 12 hour or 24 hour (Military) mode
-  * 12
-  * 24
-* **Opt 2: 	Leading Zero Blanking**	 (Default: 0)
- * Blanks the leading zero
-  * 1:*enable*
-  * 0:*disable*
+**Opt 1: 	12/24 Hour Mode**	 (Default: 12)
+Display time in 12 hour or 24 hour (Military) mode
+ * 12
+ * 24
+**Opt 2: 	Leading Zero Blanking**	 (Default: 0)
+Blanks the leading zero
+ * 1:*enable*
+ * 0:*disable*
 * **Opt 3:  Digit Crossfade**		(Default: 1)
 	When changing digits on the display, fade in the new one
 		1:*enabled*
