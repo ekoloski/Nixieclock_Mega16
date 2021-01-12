@@ -24,13 +24,13 @@
 
 ## Menu options:
 * **Opt 1: 	12/24 Hour Mode**	 (Default: 12)
-	Display time in 12 hour or 24 hour (Military) mode
-		12
-		24
+ * Display time in 12 hour or 24 hour (Military) mode
+  * 12
+  * 24
 * **Opt 2: 	Leading Zero Blanking**	 (Default: 0)
-	Blanks the leading zero
-		1:*enable*
-		0:*disable*
+ * Blanks the leading zero
+  * 1:*enable*
+  * 0:*disable*
 * **Opt 3:  Digit Crossfade**		(Default: 1)
 	When changing digits on the display, fade in the new one
 		1:*enabled*
@@ -101,11 +101,11 @@
 * **Opt 21: DST Fall Back Week**			(Default: 1)
 		1-4
 * **Opt 22: DST Fall Back Month**			(Default: 11)
-		1-12
+	* 1-12
 * **Opt 23: PWM Frequency Scaling**		
-	This value is read only and is present only for debugging purposes
+	* This value is read only and is present only for debugging purposes
 * **Opt 24: Software Time Correction**		(Default: 1.94)
-	Add/Subtract number of seconds per week
+	* Add/Subtract number of seconds per week
 	(Left colon illuminates for negative numbers)
 	Quartz crystals like the one used for timekeeping in this clock are not 
 	perfect. They inherently have some error in their resonant frequency. 
