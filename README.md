@@ -25,19 +25,19 @@
 ## Menu options:
 Opt 1: 	12/24 Hour Mode	 (Default: 12)
 	Display time in 12 hour or 24 hour (Military) mode
-  - 12
-  - 24
+    12
+    24
 Opt 2: 	Leading Zero Blanking	 (Default: 0)
 	Blanks the leading zero
-  - 1:enable
-  - 0:disable
+    1:enable
+    0:disable
 Opt 3:  Digit Crossfade		(Default: 1)
 	When changing digits on the display, fade in the new one
-  - 1:enabled
-  - 0:disable
+    1:enabled
+    0:disable
 Opt 4:  Crossfade Step		(Default: 3)
 	How quickly the crossfade happens
-  - 1-10 quick to slow
+    1-10 quick to slow
  Opt 5:  Blinking Colons 		(Default: 2)
 		0:Off
 		1:Blink @ .5hz
