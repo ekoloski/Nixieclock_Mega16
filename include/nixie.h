@@ -36,6 +36,8 @@
 #define TRUE		1
 #define FALSE		0
 
+#define MAGIC_NUMBER 5
+
 #include <avr/eeprom.h>
 
 // 26 of 64 bytes in EEPROM used

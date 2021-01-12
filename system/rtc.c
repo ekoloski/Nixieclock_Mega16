@@ -33,6 +33,7 @@ volatile uint8_t set_mode = NORMAL;
 volatile uint8_t clock_state;
 volatile uint8_t unlock_correction = FALSE;
 volatile int8_t correction;
+volatile int8_t dst_handled;
 
 ISR(TIMER2_COMP_vect) __attribute__ ((hot));
 ISR(TIMER2_COMP_vect) {
@@ -82,6 +83,7 @@ ISR(TIMER2_OVF_vect) {
 			if (++clock.hour==24) {
 				clock.hour=0;
 				unlock_correction = 1;
+				dst_handled = 0;
 				if (++clock.day==7) 
 					clock.day=0;
 				if (++clock.date==32) {
@@ -133,6 +135,7 @@ void init_rtc(void) {
 	clock.month = 1;
 	clock.year = 20;
 	clock.day = calculate_day_of_week();	
+	dst_handled = 0;
 }
 
 char not_leap(void) {										//check for leap year

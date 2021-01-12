@@ -53,9 +53,9 @@ LDFLAGS			= -Wl,-gc-sections
 LDFLAGS			+= -Wl,-relax
 LDFLAGS			+= -Wl,-Map,$(TARGET).map
 
-BINFILE			= nixieclock-firmware.bin
-ELFFILE			= nixieclock-firmware.elf
-ASMFILE			= nixieclock-firmware.s
+BINFILE			= $(TARGET).bin
+ELFFILE			= $(TARGET).elf
+ASMFILE			= $(TARGET).s
 EEPFILE			= nixieclock-eeprom.eep
 
 OBJS			+= system/nixie.o

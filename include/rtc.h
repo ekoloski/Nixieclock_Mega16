@@ -40,6 +40,7 @@ extern volatile uint8_t set_timer;
 extern volatile uint8_t sentinal;
 extern volatile uint8_t unlock_correction;
 extern volatile int8_t correction;
+extern volatile int8_t dst_handled;
 
 extern char not_leap(void);
 extern void init_rtc(void);

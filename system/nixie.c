@@ -45,6 +45,8 @@ volatile int8_t correction_flag;
 volatile uint8_t inc_dec;
 volatile uint8_t swap;
 
+volatile uint8_t just_woke_up = 1;
+
 ISR(INT0_vect) {
 // Power Fail pin (PD2) is configured for external interrupt on rising and falling edges.
 // Check for power failure and sleep if needed or wake up if needed
@@ -64,22 +66,30 @@ ISR(INT0_vect) {
 		sleep_enable();
 	} else if (PF_PORT && (1 << PF_PIN)) {
 		// wake up!
-		sleep_disable ();	
-		// Wake up is doing weird things, entering set mode and advancing the option
-		// this suggests to me that the buttons are being registered as pushed
-		// so lets try to fix that shit right now
-		PORTD |= (1<<PD2);
+		sleep_disable ();
 		
-		SET_BUTTON_PORT |= (1<<SET_BUTTON_IDX);
-		set_button_counter = 0x00;
-		set_button_flag = NOT_PRESSED;
+		// Update the display digits
+		display_set_digits(clock.hour, clock.minute, clock.second, display_colons);
+		clock_state = NORMAL;
+		display_state = NORMAL;		
 		
-		ADV_BUTTON_PORT |= (1<<ADV_BUTTON_IDX);
-		adv_button_counter = 0x00;
-		adv_button_flag = NOT_PRESSED;
+		// Set the initial timer value to 0
+		TCNT1H = 0x00;
+		TCNT1L = 0x00;
+		
+		// Re-enable interrupts for the display
+		TIMSK |= (1 << OCIE1A) | (1 << OCIE1B);			
 		
 		// Enable button timer interrupt
 		TIMSK |= (1 << TOIE0);
+		
+		clock_settings = ReadEEPROM();
+		set_display_duty_cycle(clock_settings.brightness);
+		
+		// Calculate a new software time correction value
+		correction_value = 60480000 / (uint32_t)((clock_settings.software_time_correction > 0)?
+										clock_settings.software_time_correction:
+										clock_settings.software_time_correction * -1);	
 	}
 }
 
@@ -102,7 +112,7 @@ void init_pins(void) {
 	// Setup the interrupts for the power fail sense pin
 	//MCUCR |= (1<<ISC01)|(1<<ISC00);		// ISC01=1 ISC00=1 : Rising edge on INT0 triggers interrupt.
 	MCUCR |= (1<<ISC00);					// ISC01=0 ISC00=1 : Rising or falling edge on INT0 triggers interrupt.
-	GICR  |= (1<<INT0);					// Enable INT0 interrupt
+	GICR  |= (1<<INT0);						// Enable INT0 interrupt
 }
 
 int main(void) {
@@ -118,14 +128,10 @@ int main(void) {
 	clock_settings = ReadEEPROM();
 	
 	// Sanity check the settings to see if EEPROM was never initialized
-	if (clock_settings.magic_number != 4) {
+	if (clock_settings.magic_number != MAGIC_NUMBER) {
 		WriteDefaultSettings();
 		clock_settings = ReadEEPROM();
 	}
-
-	// Testing the software time correction, leave this out normally
-	//clock_settings.software_time_correction = 194;
-	//UpdateSettings(clock_settings);
 
 	// Update the duty cycle
 	set_display_duty_cycle(clock_settings.brightness);
@@ -160,20 +166,24 @@ int main(void) {
 				break;
 			case HALF_SECOND:								// Stuff to do at the half second mark
 				// Take care of daylight saving time
-				if (clock_settings.daylight_saving_enable){
+				if ((clock_settings.daylight_saving_enable) && (!dst_handled)){
 					if ((clock.second == 0) &&
 					    (clock.month == clock_settings.spring_ahead_month) && 
 					    (clock.day == clock_settings.spring_ahead_day) && 
 					    (clock.hour == clock_settings.spring_ahead_hour) &&
-					    (clock.date < clock_settings.spring_ahead_week * 7)) {
+					    (clock.date <= clock_settings.spring_ahead_week * 7) &&
+						(clock.date > (clock_settings.spring_ahead_week - 1) * 7)) {
 							clock.hour += 1;
+							dst_handled = 1;
 					}
 					if ((clock.second == 0) &&
 					    (clock.month == clock_settings.fall_back_month) && 
 					    (clock.day == clock_settings.fall_back_day) && 
 					    (clock.hour == clock_settings.fall_back_hour) &&
-					    (clock.date < clock_settings.fall_back_week * 7)) {
+					    (clock.date <= clock_settings.fall_back_week * 7) &&
+						(clock.date > (clock_settings.fall_back_week - 1) * 7)) {
 							clock.hour -= 1;
+							dst_handled = 1;
 					}					
 				}				
 				
@@ -334,7 +344,6 @@ int main(void) {
 				sentinal = CLEAR;
 				break;
 		}
-		
 		// do the business, handle various modes of the clock
 		switch (clock_state) {
 			case NORMAL:
@@ -868,6 +877,9 @@ void cathode_poison_routine(void) {
 	display_state == CP_SERVICE;
 	while (clock.hour < (clock_settings.cathode_poison_start_hour + clock_settings.cathode_poisoning_duration)) {
 		if (clock.second < 3) {
+			display_new[0] = clock.hour;
+			display_new[1] = clock.minute;
+			display_new[2] = clock.second;			
 			if (!clock_settings.clock_display_24hr) {
 				display_new[0] %= 12;
 				if (display_new[0] == 0)
@@ -938,7 +950,7 @@ void WriteDefaultSettings(void) {
 	clock_settings.software_time_correction = 194;				//Opt 24:	number of seconds per week to add or subtract		def: 1.94
 																			// 	left colon on for negative numbers
 																//Opt 25: Day of week 0:Sunday 6:Saturday						R/O
-	clock_settings.magic_number = 4;							// Used to see if the EEPROM has been set
+	clock_settings.magic_number = MAGIC_NUMBER;					// Used to see if the EEPROM has been set
 	UpdateSettings(clock_settings);
 }
 
