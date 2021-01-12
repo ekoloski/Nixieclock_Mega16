@@ -23,48 +23,48 @@
 	Settings are stored in nonvolatile EEPROM and are retained through power outages or reset.
 
 ## Menu options:
-**Opt 1: 	12/24 Hour Mode**	 (Default: 12) 
+* **Opt 1: 	12/24 Hour Mode**	 (Default: 12)
 	Display time in 12 hour or 24 hour (Military) mode
 		12
 		24
-**Opt 2: 	Leading Zero Blanking**	 (Default: 0)
+* **Opt 2: 	Leading Zero Blanking**	 (Default: 0)
 	Blanks the leading zero
 		1:*enable*
 		0:*disable*
-**Opt 3:  Digit Crossfade**		(Default: 1)
+* **Opt 3:  Digit Crossfade**		(Default: 1)
 	When changing digits on the display, fade in the new one
 		1:*enabled*
 		0:*disable*
-**Opt 4:  Crossfade Step**		(Default: 3)
+* **Opt 4:  Crossfade Step**		(Default: 3)
 	How quickly the crossfade happens
 		1-10 *quick to slow*
-**Opt 5:  Blinking Colons** 		(Default: 2)
+* **Opt 5:  Blinking Colons** 		(Default: 2)
 		0:*Off
 		1:*Blink @ .5hz*
 		2:*Blink @ 1hz*
 		3:*AM/PM (PM On)*
 		4:*Constant On*
-**Opt 6:  Colon Behavior During Date Display**	(Default: 1)
+* **Opt 6:  Colon Behavior During Date Display**	(Default: 1)
 	What should the colons do during date display mode
 		0:*Follow behavior defined in Option 5*
 		1:*On*
 		2:*Off*
-**Opt 7:  Display Date Periodically**			(Default: 1)
+* **Opt 7:  Display Date Periodically**			(Default: 1)
 	Display the date every minute for a few seconds
 		1:*Enable*
 		0:*Disable*
-**Opt 8:  When to display the date**		(Default: 40)
+* **Opt 8:  When to display the date**		(Default: 40)
 		0
 		10
 		20
 		30
 		40
 		50
-**Opt 9:   Display Date Duration**			(Default: 2)
+* **Opt 9:   Display Date Duration**			(Default: 2)
 		1-10	*Seconds*
-**Opt 10: Display Brightness**			(Default: 100)
+* **Opt 10: Display Brightness**			(Default: 100)
 		10-100  *(in steps of 10)*
-**Opt 11: Cathode Poisoning Prevention**		(Default: 1)
+* **Opt 11: Cathode Poisoning Prevention**		(Default: 1)
 	Nixie tubes can sometimes fail due to burn-in, if one cathode 
 	is left energized for too long it can sputter 	material onto 
 	adjacent cathodes and shorten their lifetime. The cathode 
@@ -76,35 +76,35 @@
 	minute transition if the service is running.
 		1:*enable*
 		0:*disable*
-**Opt 12: Cathode Poisoning Start Hour**		(Default: 3)
+* **Opt 12: Cathode Poisoning Start Hour**		(Default: 3)
 		0-23
-**Opt 13: Cathode Poisoning Duration**		(Default: 1)
+* **Opt 13: Cathode Poisoning Duration**		(Default: 1)
 		1-10 *hours*
-**Opt 14: Automatic Daylight Savings Adjustment**	(Default: 1)
+* **Opt 14: Automatic Daylight Savings Adjustment**	(Default: 1)
 	At the time of writing DST in the United States is standardized to:
 	‘Spring Ahead’ on the second Sunday of March at 2:00 AM
 	‘Fall Back’ on the first Sunday of November at 2:00 AM
 		1:*enable*
 		0:*disable*
-**Opt 15: DST Spring Ahead Hour**			(Default: 2)	
+* **Opt 15: DST Spring Ahead Hour**			(Default: 2)	
 	Hour to move clock forward
-**Opt 16: DST Spring Ahead Day of the Week**	(Default: 0)
+* **Opt 16: DST Spring Ahead Day of the Week**	(Default: 0)
 		0-6 	*(0:Sunday… 6:Saturday)*
-**Opt 17: DST Spring Ahead Week**			(Default: 2)
+* **Opt 17: DST Spring Ahead Week**			(Default: 2)
 		1-4
-**Opt 18: DST Spring Ahead Month**		(Default: 3)
+* **Opt 18: DST Spring Ahead Month**		(Default: 3)
 		1-12
-**Opt 19: DST Fall Back Hour**			(Default: 2)
+* **Opt 19: DST Fall Back Hour**			(Default: 2)
 	Hour to move clock backward
-**Opt 20: DST Fall Back Day**			(Default: 0)
+* **Opt 20: DST Fall Back Day**			(Default: 0)
 		0-6 	*(0:Sunday…6:Saturday)*
-**Opt 21: DST Fall Back Week**			(Default: 1)
+* **Opt 21: DST Fall Back Week**			(Default: 1)
 		1-4
-**Opt 22: DST Fall Back Month**			(Default: 11)
+* **Opt 22: DST Fall Back Month**			(Default: 11)
 		1-12
-**Opt 23: PWM Frequency Scaling**		
+* **Opt 23: PWM Frequency Scaling**		
 	This value is read only and is present only for debugging purposes
-**Opt 24: Software Time Correction**		(Default: 1.94)
+* **Opt 24: Software Time Correction**		(Default: 1.94)
 	Add/Subtract number of seconds per week
 	(Left colon illuminates for negative numbers)
 	Quartz crystals like the one used for timekeeping in this clock are not 
@@ -116,11 +116,11 @@
 	the value is set to add 1.94. You should only change this value after 
 	careful measurement over a minimum of one week. A 32.768KHz testpoint is 
 	provided, or you can set the colons to .5 or 1Hz to measure from.
-**Opt 25: Day of week**
+* **Opt 25: Day of week**
 	This value is read only and is provided only as a sanity check for the DST options 			
 		0:*Sunday…6:Saturday*
 
-##General Notes:
+## General Notes:
 **Use caution**, the tubes on this clock are fragile. Besides that, they run at about **180**
 **volts DC**. While the current available limited you could still receive an unpleasant shock.
 
